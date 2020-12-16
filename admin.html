@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <script src="scripts/admin.js"></script>
+    <link rel="stylesheet" href="styles/admin.css">
+    <title>Административная панель</title>
+</head>
+
+<body>
+
+    <div class="container deleteM">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="modal fade" id="deleteModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 id="modalDelete-text-name"></h1><span> удаление</span>
+                            </div>
+                            <div class="modal-body px-4">
+                                <p>Вы уверены, что хотите удалить запись?</p>
+                                <span>id:</span><span id="modalDelete-text-id" class="display-2"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="modalDelete-btn-abort" class="btn btn-primary">Отмена</button>
+                                <button type="button" id="modalDelete-btn-process" class="btn modalDeleteBtn">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container editM">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="modal fade" id="editModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 id="modalEdit-text-title">Редактирование записи</h1>
+                            </div>
+                            <div class="modal-body px-4">
+                                <div class="container-fluid">
+                                    <form action="">
+                                        <input type="hidden" id="modalEdit-input-id" value="">
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Наименование</p>
+                                                <textarea id="modalEdit-input-name" class="form-control" name="objectName"
+                                                    style="resize:none" rows="1"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Является сетевым</p>
+                                                <div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input id="modalEdit-input-isNetwork" class="form-check-input" type="radio"
+                                                            name="isNetworkOption" value="option1">
+                                                        <label  class="form-check-label" for="isNetwork">Да</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input id="modalEdit-input-notNetwork" class="form-check-input" type="radio"
+                                                            name="isNetworkOption" value="option2">
+                                                        <label  class="form-check-label" for="notNetwork">Нет</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg d-flex flex-column w-100">
+                                                <p>Название управляющей компании</p>
+                                                <textarea id="modalEdit-input-operatingCompany" class="form-control" name="objectHeadCompany"
+                                                    style="resize:none" rows="1"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Вид объекта</p>
+                                                <select id="modalEdit-select-typeObject" class="form-control w-100">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Административный округ</p>
+                                                <select id="modalEdit-select-district" class="form-control w-100">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Район</p>
+                                                <select id="modalEdit-select-admArea" class="form-control w-100">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Адрес</p>
+                                                <textarea id="modalEdit-input-address" class="form-control" name="objectAddress"
+                                                    style="resize:none"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Число посадочных мест</p>
+                                                <textarea id="modalEdit-input-seatsCount" class="form-control" name="objectCapacity"
+                                                    style="resize:none" rows="1"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Показатель социальных льгот</p>
+                                                <div class="">
+                                                    <div class="form-check form-check-inline">
+                                                        <input id="modalEdit-checkbox-havingSocPriv" class="form-check-input" type="radio"
+                                                            name="inlineRadioOption" value="option1">
+                                                        <label class="form-check-label" for="privilegeYes">Есть</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input id="modalEdit-checkbox-noSocPriv" class="form-check-input" type="radio"
+                                                            name="inlineRadioOption" value="option2">
+                                                        <label class="form-check-label" for="privilegeNo">Нет</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Телефон</p>
+                                                <textarea id="modalEdit-input-publicPhone" class="form-control" name="objectContactNumber"
+                                                    style="resize:none" rows="1"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12-lg w-100">
+                                                <p>Географические координаты</p>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-3-lg d-flex align-items-center">
+                                                            <span>Широта</span>
+                                                        </div>
+                                                        <div class="col-3-lg d-flex align-items-center">
+                                                            <textarea class="form-control" name="objectCoordinateX"
+                                                                id="modalEdit-input-coordinateX" style="resize:none"
+                                                                rows="1"></textarea>
+                                                        </div>
+                                                        <div class="col-3-lg d-flex align-items-center">
+                                                            <span>Долгота</span>
+                                                        </div>
+                                                        <div class="col-3-lg d-flex align-items-center">
+                                                            <textarea class="form-control" name="objectCoordinateY"
+                                                            id="modalEdit-input-coordinateY" style="resize:none"
+                                                                rows="1"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="editModal-btn-close" type="button" class="btn">Отменить</button>
+                                <button id="editModal-btn-process" type="button" class="btn btn-primary">Продолжить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container infoM">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="modal fade" id="infoModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 id="modalInfo-text-name-h">"НАЗВАНИЕ СТОЛОВОЙ"</h1>
+                            </div>
+                            <div class="modal-body px-4">
+                                <div class="restaurant-info-list container-fluid">
+                                    <form action="">
+                                    <input type="hidden" id="modalInfo-input-id" value="">
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Наименование</div>
+                                        <div id="modalInfo-text-name" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Является сетевым</div>
+                                        <div id="modalInfo-text-isNetObject" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Вид объекта</div>
+                                        <div id="modalInfo-text-typeObject" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Административный округ</div>
+                                        <div id="modalInfo-text-district" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Район</div>
+                                        <div id="modalInfo-text-admArea" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Адрес</div>
+                                        <div id="modalInfo-text-address" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Число посадочных мест</div>
+                                        <div id="modalInfo-text-seatsCount" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Показатель социальных льгот</div>
+                                        <div id="modalInfo-text-socialPrivileges" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Контактный телефон</div>
+                                        <div id="modalInfo-text-publicPhone" class="col-lg-6">--</div>
+                                    </div>
+                                    <div class="info-element row mb-3">
+                                        <div class="col-lg-6">Географические координаты</div>
+                                        <div id="modalInfo-text-coordinates" class="col-lg-6">--</div>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn">Ок</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="m-2 p-2">
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom navbar-dark rounded-bottom bg-dark">
+            <a class="navbar-brand" href="index.html"><img src="content/logo/Bueno_mini.png" width="270" height="70"
+                    class="d-inline-block align-top" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Административная панель
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="index.html">Заказ</a>
+                            <a class="dropdown-item" href="admin.html">Админ</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="alerts d-flex flex-column m-2">
+        <div class="alert alert-success d-flex flex-row justify-content-between align-items-center">
+            <span class="text-center">Alert message</span>
+        </div>
+    </div>
+
+    <h1 class="display-4 text-center text-primary mb-5 pb-2 border-bottom text-dark">Предприятия общественного питания города
+        Москвы</h1>
+
+    <div class="form-restaurants-sort">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-lg-8">
+                    <label for="input-name">Наименование</label>
+                    <input type="text" class="form-control" id="input-name" aria-describedby=""
+                        placeholder="Наименование">
+                </div>
+                <div class="col-lg-4">
+                    <label for="select-district">Административный округ</label>
+                    <select class="form-control" id="select-district">
+                        <option value="" selected>Не указано</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-5 d-flex flex-column">
+                    <label>Количество посадочных мест</label>
+                    <div class="d-flex text-center align-self-center">
+                        <span class="mr-2">от</span>
+                        <input type="number" class="form-control mr-2" style="max-width: 135px;" id="border_minCapacity"
+                            aria-describedby="" placeholder="0">
+                        <span class="mr-2">до</span>
+                        <input type="number" class="form-control mr-2" style="max-width: 135px;" id="border_maxCapacity"
+                            aria-describedby="" placeholder="500">
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>Является сетевым</label>
+                    <select class="form-control" id="select-isNetObject">
+                        <option value="" selected>Не указано</option>
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <label for="select-admArea">Район</label>
+                    <select class="form-control" id="select-admArea">
+                        <option value="" selected>Не указано</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-5 d-flex flex-column">
+                    <label>Дата создания</label>
+                    <div class="d-flex text-center align-self-center">
+                        <span class="mr-2">с</span>
+                        <input type="date" class="form-control mr-2" style="max-width: 135px;" id="border_minDate"
+                            aria-describedby="" placeholder="">
+                        <span class="mr-2">по</span>
+                        <input type="date" class="form-control mr-2" style="max-width: 135px;" id="border_maxDate"
+                            aria-describedby="" placeholder="">
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>Льготы</label>
+                    <select class="form-control" id="select-socialPrivileges">
+                        <option value="" selected>Не указано</option>
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <label for="select-typeObject">Вид объекта</label>
+                    <select class="form-control" id="select-typeObject">
+                        <option value="" selected>Не указано</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-12-lg">
+                    <button id="btn_formFormat" type="submit" class="btn btn-danger mb-2">Найти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="restaurants-list mx-5 mb-5 d-flex flex-column align-items-center">
+        <table id="table-restaurants-global" hidden="true" class="table mb-4 bg-dark text-white">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Вид объекта</th>
+                    <th>Округ</th>
+                    <th>Район</th>
+                    <th>Адрес</th>
+                    <th>Является сетевым</th>
+                    <th>Льготы</th>
+                    <th>Создан</th>
+                    <th>Вместимость</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="table-restaurants">
+                
+            </tbody>
+        </table>
+        
+    </div>
+
+    <footer class="page-footer border-top font-small p-4 bg-dark text-white ">
+        <div class="container-fluid text-center text-md-left ">
+            <div class="row">
+                <div class="col-md-6 mt-md-0 mt-3">
+                    <h4 class="text-uppercase">Департамент торговли и услуг г. Москвы</h5>
+                        <p>email@email.com</p>
+                        <p><a href="mos.ru">mos.ru</a></p>
+                        <hr class="clearfix w-100 d-md-none pb-3">
+                </div>
+
+                <div class="col-md-6 mb-md-0 mb-3">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="index.html">Оформление заказа</a>
+                        </li>
+                        <li>
+                            <a href="admin.html">Административная панель</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center pt-4 text-white">
+            © 2020 
+        </div>
+    </footer>
+
+</body>
+
+</html>
